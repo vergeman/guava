@@ -94,6 +94,10 @@ public final class HostAndPort implements Serializable {
     return host;
   }
 
+  public String getHostText() {
+    return getHost();
+  }
+
   /** Return true if this instance has a defined port. */
   public boolean hasPort() {
     return port >= 0;

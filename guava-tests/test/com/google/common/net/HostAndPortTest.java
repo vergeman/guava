@@ -131,6 +131,7 @@ public class HostAndPortTest extends TestCase {
       }
     }
     assertEquals(expectHost, hp.getHost());
+    assertEquals(expectHost, hp.getHostText());
 
     // Check the post-withDefaultPort() instance (if any).
     if (!badDefaultPort) {
@@ -143,12 +144,14 @@ public class HostAndPortTest extends TestCase {
         assertEquals(-1, expectPort);
       }
       assertEquals(expectHost, hp2.getHost());
+      assertEquals(expectHost, hp2.getHostText());
     }
   }
 
   public void testFromParts() {
     HostAndPort hp = HostAndPort.fromParts("gmail.com", 81);
     assertEquals("gmail.com", hp.getHost());
+    assertEquals("gmail.com", hp.getHostText());
     assertTrue(hp.hasPort());
     assertEquals(81, hp.getPort());
 
@@ -168,10 +171,12 @@ public class HostAndPortTest extends TestCase {
   public void testFromHost() {
     HostAndPort hp = HostAndPort.fromHost("gmail.com");
     assertEquals("gmail.com", hp.getHost());
+    assertEquals("gmail.com", hp.getHostText());
     assertFalse(hp.hasPort());
 
     hp = HostAndPort.fromHost("[::1]");
     assertEquals("::1", hp.getHost());
+    assertEquals("::1", hp.getHostText());
     assertFalse(hp.hasPort());
 
     try {
@@ -209,10 +214,13 @@ public class HostAndPortTest extends TestCase {
     // Bracketed IPv6 works fine.
     assertEquals("::1", HostAndPort.fromString("[::1]").requireBracketsForIPv6().getHost());
     assertEquals("::1", HostAndPort.fromString("[::1]:80").requireBracketsForIPv6().getHost());
+    assertEquals("::1", HostAndPort.fromString("[::1]").requireBracketsForIPv6().getHostText());
+    assertEquals("::1", HostAndPort.fromString("[::1]:80").requireBracketsForIPv6().getHostText());
     // Non-bracketed non-IPv6 works fine.
     assertEquals("x", HostAndPort.fromString("x").requireBracketsForIPv6().getHost());
     assertEquals("x", HostAndPort.fromString("x:80").requireBracketsForIPv6().getHost());
-
+    assertEquals("x", HostAndPort.fromString("x").requireBracketsForIPv6().getHostText());
+    assertEquals("x", HostAndPort.fromString("x:80").requireBracketsForIPv6().getHostText());
     // Non-bracketed IPv6 fails.
     try {
       HostAndPort.fromString("::1").requireBracketsForIPv6();
